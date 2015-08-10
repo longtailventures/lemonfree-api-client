@@ -21,7 +21,7 @@
     },
     "repositories": [
         {
-            "url": "https://github.com/longtailventures/longtailventures.git",
+            "url": "https://github.com/longtailventures/form.git",
             "type": "git"
         }
     ],
