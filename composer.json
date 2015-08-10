@@ -16,14 +16,5 @@
             
         }
     },
-    "require": {
-        "longtailventures/form" : "dev-master"
-    },
-    "repositories": [
-        {
-            "url": "https://github.com/longtailventures/form.git",
-            "type": "git"
-        }
-    ],
     "minimum-stability" : "dev"
 }
