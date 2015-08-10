@@ -19,5 +19,11 @@
     "require": {
         "longtailventures/form" : "dev-master"
     },
+    "repositories": [
+        {
+            "url": "https://github.com/longtailventures/longtailventures.git",
+            "type": "git"
+        }
+    ],
     "minimum-stability" : "dev"
 }
