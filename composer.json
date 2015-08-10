@@ -1,0 +1,23 @@
+{
+    "name": "longtailventures/lemonfree-api-client",
+    "description": "",
+    "type": "library",
+    "homepage": "http://longtailpartners.com/",
+    "authors" : [
+        {
+            "name": "Melvyn Navasca",
+            "email": "mnavasca@lotlinx.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": { 
+            "LemonFree\\Api\\": "src"
+            
+        }
+    },
+    "require": {
+        "longtailventures/form" : "dev-master"
+    },
+    "minimum-stability" : "dev"
+}
