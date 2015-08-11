@@ -11,11 +11,16 @@
         }
     ],
     "require": {
-        "longtailventures/form" : "dev-master"
+        "longtailventures/form" : "dev-master",
+        "longtailventures/validator" : "dev-master"
     },
     "repositories": [
         {
             "url": "https://github.com/longtailventures/form.git",
+            "type": "git"
+        },
+        {
+            "url": "https://github.com/longtailventures/validator.git",
             "type": "git"
         }
     ],
