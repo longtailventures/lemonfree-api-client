@@ -18,11 +18,11 @@ class LeadForm extends \LongTailVentures\Form
     	$validator->setMessage('Please enter a valid email address');
     	$this->addValidator('Email', $validator);
 
-    	$validator = new \Zend\I18n\Validator\PostCode(array('locale' => 'de_US'));
+    	$validator = new \LongTailVentures\Validator\ZipCode();
     	$validator->setMessage('Please enter a 5 digit zip code');
     	$this->addValidator('PostCode', $validator);
 
-    	$validator = new \Zend\Validator\NotEmpty();
+    	$validator = new \LongTailVentures\Validator\PhoneNumber();
     	$validator->setMessage('Please enter a 10 digit phone number');
     	$this->addValidator('Phone', $validator);
 
