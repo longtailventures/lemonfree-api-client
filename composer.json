@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "longtailventures/form" : "*"
+        "longtailventures/form" : "dev-master"
     },
     "repositories": [
         {
