@@ -8,7 +8,7 @@ use LemonFree\Api\Params\Mileage;
 use LemonFree\Api\Params\Price;
 use LemonFree\Api\Params\Distance;
 
-use Zend\I18n\Validator\PostCode as ZipCodeValidator;
+use LongTailVentures\Validator\ZipCode as ZipCodeValidator;
 
 class Serp
 {
@@ -60,7 +60,7 @@ class Serp
 
         if ($this->_requestParams['location'])
         {
-            $validator = new ZipCodeValidator(array('locale' => 'de_US'));
+            $validator = new ZipCodeValidator();
         	if ($validator->isValid($this->_requestParams['location']))
         		$metaParams['location'] = 'in ' . $this->_requestParams['location'];
         	else

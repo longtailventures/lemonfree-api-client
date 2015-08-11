@@ -7,7 +7,7 @@ use LemonFree\Api\Params\Mileage;
 use LemonFree\Api\Params\Price;
 use LemonFree\Api\Params\Distance;
 
-use Zend\I18n\Validator\PostCode as ZipCodeValidator;
+use LongTailVentures\Validator\ZipCode as ZipCodeValidator;
 
 class Util
 {
@@ -86,7 +86,7 @@ class Util
                     case 'location':
                     	$requestParams['location'] = $value;
 
-                    	$validator = new ZipCodeValidator(array('locale' => 'de_US'));
+                    	$validator = new ZipCodeValidator();
                         if ($validator->isValid($value))
                         {
 	                        $searchParams['zip'] = $value;
@@ -161,7 +161,7 @@ class Util
         // if location is missing read the cookie
         if ($searchParams['zip'] === null && $searchParams['state'] === null)
         {
-            $validator = new ZipCodeValidator(array('locale' => 'de_US'));
+            $validator = new ZipCodeValidator();
             $storedLocation = isset($_COOKIE['LFAPI_LOCATION']) && $validator->isValid($_COOKIE['LFAPI_LOCATION'])
                 ? $_COOKIE['LFAPI_LOCATION']
                 : null;
