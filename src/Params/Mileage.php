@@ -19,8 +19,8 @@ class Mileage
     {
         $urlParam = '';
 
-        $isMileageAValid = LemonFree_Api_Validate_Mileage::isValid($mileageA);
-        $isMileageBValid = LemonFree_Api_Validate_Mileage::isValid($mileageB);
+        $isMileageAValid = in_array($mileageA, self::$_mileageRanges);
+        $isMileageBValid = in_array($mileageB, self::$_mileageRanges);
 
         if ($isMileageAValid && $isMileageBValid)
         {
@@ -120,7 +120,7 @@ class Mileage
         if (empty($mileageToRound))
             return self::LOWER_MILEAGE_RANGE;
 
-        if (!LTV_Validate_Integer::isValid($mileageToRound))
+        if (!is_numeric($mileageToRound))
             return $roundedMileage;
 
         foreach (self::$_mileageRanges as $i => $mileage)

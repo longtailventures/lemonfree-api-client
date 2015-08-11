@@ -17,8 +17,8 @@ class Price
     {
         $urlParam = '';
 
-        $isPriceAValid = LemonFree\Api\Validate\Price::isValid($priceA);
-        $isPriceBValid = LemonFree\Api\Validate\Price::isValid($priceB);
+        $isPriceAValid = in_array($priceA, self::$_priceRanges);
+        $isPriceBValid = in_array($priceB, self::$_priceRanges);
 
         if ($isPriceAValid && $isPriceBValid)
         {

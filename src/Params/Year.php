@@ -8,8 +8,8 @@ class Year
     {
         $urlParam = '';
 
-        $isYearAValid = LemonFree\Api\Validate\Year::isValid($yearA);
-        $isYearBValid = LemonFree\Api\Validate\Year::isValid($yearB);
+        $isYearAValid = self::_isYearValid($yearA);
+        $isYearBValid = self::_isYearValid($yearB);
 
         if ($isYearAValid && $isYearBValid)
         {
@@ -104,5 +104,20 @@ class Year
             $years = array_reverse($years, $includeLabels);
 
         return $years;
+    }
+
+
+    private static function _isYearValid($year)
+    {
+        $isValid = true;
+
+        if (!ctype_digit($year))
+            $isValid = false;
+        else if (strlen($year) != 4)
+            $isValid = false;
+        else if ((int)$year < 1900 || (int)$year > date('Y') + 1)
+            $isValid = false;
+
+        return $isValid;
     }
 }

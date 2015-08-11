@@ -2,7 +2,7 @@
 
 namespace LemonFree\Api\Params;
 
-class ProvinceStates extends LemonFree\Api\ProvinceStates
+class ProvinceStates extends \LemonFree\Api\ProvinceStates
 {
     public static function getProvinces($includeLabels = false)
     {
