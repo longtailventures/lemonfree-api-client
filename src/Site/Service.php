@@ -38,17 +38,17 @@ class Service
 
 	public function getListings($searchParams)
 	{
-        $listingResult = $this->_api->getListings($searchParams, $searchParams['page'], $nPerPage = 10);
+        	$listingResult = $this->_api->getListings($searchParams, $searchParams['page'], $nPerPage = 10);
 
-        foreach ($listingResult['listings'] as $i => $listing)
-        {
-        	$listingMeta = new CarForums_Meta_Listing($listing);
-        	$listing['url'] = $listingMeta->getListingUrl();
-
-        	$listingResult['listings'][$i] = $listing;
-        }
-
-        return $listingResult;
+	        foreach ($listingResult['listings'] as $i => $listing)
+	        {
+	        	$listingMeta = new CarForums_Meta_Listing($listing);
+	        	$listing['url'] = $listingMeta->getListingUrl();
+	
+	        	$listingResult['listings'][$i] = $listing;
+	        }
+	
+	        return $listingResult;
 	}
 
 
