@@ -8,6 +8,8 @@ use LemonFree\Api\Params\Mileage;
 use LemonFree\Api\Params\Price;
 use LemonFree\Api\Params\Distance;
 
+use Zend\I18n\Validator\PostCode as ZipCodeValidator;
+
 class Serp
 {
     private $_metaParams, $_requestParams;
@@ -58,7 +60,8 @@ class Serp
 
         if ($this->_requestParams['location'])
         {
-        	if (LTV_Validate_ZipCode::isValid($this->_requestParams['location']))
+            $validator = new ZipCodeValidator(array('locale' => 'de_US'));
+        	if ($validator->isValid($this->_requestParams['location']))
         		$metaParams['location'] = 'in ' . $this->_requestParams['location'];
         	else
         	{
@@ -103,7 +106,8 @@ class Serp
 
 		if (isset($this->_requestParams['location']))
 		{
-			if (LTV_Validate_ZipCode::isValid($this->_requestParams['location']))
+		    $validator = new ZipCodeValidator(array('locale' => 'de_US'));
+			if ($validator->isValid($this->_requestParams['location']))
 				$urlParams['location'] = 'location-' . $this->_requestParams['location'];
 			else
 				$urlParams['location'] = 'location-' . $this->_requestParams['location'];
@@ -129,7 +133,8 @@ class Serp
 
 		if (isset($this->_requestParams['range']))
 		{
-			if (LTV_Validate_ZipCode::isValid($this->_requestParams['location']))
+		    $validator = new ZipCodeValidator(array('locale' => 'de_US'));
+			if ($validator->isValid($this->_requestParams['location']))
 			{
 				$distance = $this->_requestParams['range'];
 				if ($distance !== Distance::DEFAULT_VALUE)
