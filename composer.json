@@ -10,6 +10,15 @@
             "role": "Developer"
         }
     ],
+    "require": {
+        "longtailventures/form" : "dev-master"
+    },
+    "repositories": [
+        {
+            "url": "https://github.com/longtailventures/form.git",
+            "type": "git"
+        }
+    ],
     "autoload": {
         "psr-4": { 
             "LemonFree\\Api\\": "src"

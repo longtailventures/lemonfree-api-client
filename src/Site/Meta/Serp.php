@@ -2,6 +2,12 @@
 
 namespace LemonFree\Api\Site\Meta;
 
+use LemonFree\Api\Site\Url\Param;
+use LemonFree\Api\Params\Year;
+use LemonFree\Api\Params\Mileage;
+use LemonFree\Api\Params\Price;
+use LemonFree\Api\Params\Distance;
+
 class Serp
 {
     private $_metaParams, $_requestParams;
@@ -19,7 +25,7 @@ class Serp
 
         if ($this->_requestParams['year'])
         {
-            $yearParams = LemonFree\Api\Params\Year::getParams($this->_requestParams['year']);
+            $yearParams = Year::getParams($this->_requestParams['year']);
             $metaParams['year'] = $yearParams['from'] === $yearParams['to']
                 ? $yearParams['from']
                 : "{$yearParams['from']}-{$yearParams['to']}";
@@ -42,7 +48,7 @@ class Serp
 
         if ($this->_requestParams['mileage'])
         {
-            $mileageParams = LemonFree\Api\Params\Mileage::getParams($this->_requestParams['mileage'], '.');
+            $mileageParams = Mileage::getParams($this->_requestParams['mileage'], '.');
 
             if ($mileageParams['from'] == 1)
                 $metaParams['mileage'] = "under " . number_format($mileageParams['to']) . " Miles";
@@ -63,9 +69,9 @@ class Serp
 
         if ($this->_requestParams['price'])
         {
-            $params = LemonFree\Api\Params\Price::getParams($this->_requestParams['price'], '.');
+            $params = Price::getParams($this->_requestParams['price'], '.');
 
-            if ($params['from'] == LemonFree\Api\Params\Price::LOWER_PRICE_RANGE)
+            if ($params['from'] == Price::LOWER_PRICE_RANGE)
                 $metaParams['price'] = "under $" . number_format($params['from']);
             else
                 $metaParams['price'] = "over $" . number_format($params['to']);
@@ -85,15 +91,15 @@ class Serp
 
 		if (isset($this->_requestParams['model']) && !empty($this->_requestParams['model']))
 		{
-			$makeParam = LemonFree\Api\Site\Url\Param::encode($this->_requestParams['make']);
-			$modelParam = LemonFree\Api\Site\Url\Param::encode($this->_requestParams['model']);
+			$makeParam = Param::encode($this->_requestParams['make']);
+			$modelParam = Param::encode($this->_requestParams['model']);
 			$urlParams['model'] = 'used-for-sale-' . $makeParam . '.' . $modelParam;
 		}
 		else if (isset($this->_requestParams['make']) && !empty($this->_requestParams['make']))
-			$urlParams['make'] = 'used-for-sale-' . LemonFree\Api\Site\Url\Param::encode($this->_requestParams['make']);
+			$urlParams['make'] = 'used-for-sale-' . Param::encode($this->_requestParams['make']);
 
 		if (isset($this->_requestParams['trim']) && !empty($this->_requestParams['trim']))
-			$urlParams['trim'] = 'trim-' . LemonFree\Api\Site\Url\Param::encode($this->_requestParams['trim']);
+			$urlParams['trim'] = 'trim-' . Param::encode($this->_requestParams['trim']);
 
 		if (isset($this->_requestParams['location']))
 		{
@@ -104,35 +110,35 @@ class Serp
 		}
 
 		if (isset($this->_requestParams['body']) && !isset($this->_requestParams['make']))
-			$urlParams['body'] = 'body-' . LemonFree\Api\Site\Url\Param::encode($this->_requestParams['body']);
+			$urlParams['body'] = 'body-' . Param::encode($this->_requestParams['body']);
 
 		if (isset($this->_requestParams['price']))
-			$urlParams['price'] = 'price-' . LemonFree\Api\Site\Url\Param::encode($this->_requestParams['price']);
+			$urlParams['price'] = 'price-' . Param::encode($this->_requestParams['price']);
 
 		if (isset($this->_requestParams['mileage']))
-			$urlParams['mileage'] = 'mileage-' . LemonFree\Api\Site\Url\Param::encode($this->_requestParams['mileage']);
+			$urlParams['mileage'] = 'mileage-' . Param::encode($this->_requestParams['mileage']);
 
 		if (isset($this->_requestParams['year']))
-			$urlParams['year'] = 'year-' . LemonFree\Api\Site\Url\Param::encode($this->_requestParams['year']);
+			$urlParams['year'] = 'year-' . Param::encode($this->_requestParams['year']);
 
 		if (isset($this->_requestParams['sort']))
-			$urlParams['sort'] = 'sort-' . LemonFree\Api\Site\Url\Param::encode($this->_requestParams['sort']);
+			$urlParams['sort'] = 'sort-' . Param::encode($this->_requestParams['sort']);
 
 		if ($includePageParam && isset($this->_requestParams['page']))
-			$urlParams['page'] = 'page-' . LemonFree\Api\Site\Url\Param::encode($this->_requestParams['page']);
+			$urlParams['page'] = 'page-' . Param::encode($this->_requestParams['page']);
 
 		if (isset($this->_requestParams['range']))
 		{
 			if (LTV_Validate_ZipCode::isValid($this->_requestParams['location']))
 			{
 				$distance = $this->_requestParams['range'];
-				if ($distance !== LemonFree_Api_Params_Distance::DEFAULT_VALUE)
-					$urlParams['range'] = 'range-' . LemonFree\Api\Site\Url\Param::encode($distance);
+				if ($distance !== Distance::DEFAULT_VALUE)
+					$urlParams['range'] = 'range-' . Param::encode($distance);
 			}
 		}
 
 		if (isset($this->_requestParams['transmission']))
-			$urlParams['transmission'] = 'transmission-' . LemonFree\Api\Site\Url\Param::encode($this->_requestParams['transmission']);
+			$urlParams['transmission'] = 'transmission-' . Param::encode($this->_requestParams['transmission']);
 
 		if (isset($this->_requestParams['condition']) && !empty($this->_requestParams['condition']))
 			$urlParams['condition'] = 'condition-' . $this->_requestParams['condition'];

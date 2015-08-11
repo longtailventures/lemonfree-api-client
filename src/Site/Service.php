@@ -2,11 +2,13 @@
 
 namespace LemonFree\Api\Site;
 
+use LemonFree\Api\Client;
+
 class Service
 {
 	private $_api;
 
-	public function __construct(LemonFree\Api\Client $api)
+	public function __construct(Client $api)
 	{
 		$this->_api = $api;
 	}
@@ -44,10 +46,10 @@ class Service
 	        {
 	        	$listingMeta = new CarForums_Meta_Listing($listing);
 	        	$listing['url'] = $listingMeta->getListingUrl();
-	
+
 	        	$listingResult['listings'][$i] = $listing;
 	        }
-	
+
 	        return $listingResult;
 	}
 

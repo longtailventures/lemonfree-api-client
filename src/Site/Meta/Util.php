@@ -2,6 +2,11 @@
 
 namespace LemonFree\Api\Site\Meta;
 
+use LemonFree\Api\Site\Url\Param;
+use LemonFree\Api\Params\Mileage;
+use LemonFree\Api\Params\Price;
+use LemonFree\Api\Params\Distance;
+
 class Util
 {
     public static function getParamsFromQueryString($queryString)
@@ -54,11 +59,11 @@ class Util
                 $paramParts = explode('.', $value);
                 if (count($paramParts) == 2)
                 {
-                    $requestParams['make'] = $searchParams['make'] = LemonFree\Api\Site\Url\Param::decode($paramParts[0]);
-                    $requestParams['model'] = $searchParams['model'] = LemonFree\Api\Site\Url\Param::decode($paramParts[1]);
+                    $requestParams['make'] = $searchParams['make'] = Param::decode($paramParts[0]);
+                    $requestParams['model'] = $searchParams['model'] = Param::decode($paramParts[1]);
                 }
                 else if (count($paramParts) == 1)
-                    $requestParams['make'] = $searchParams['make'] = LemonFree\Api\Site\Url\Param::decode($paramParts[0]);
+                    $requestParams['make'] = $searchParams['make'] = Param::decode($paramParts[0]);
             }
             else
             {
@@ -82,7 +87,7 @@ class Util
                         if (LTV_Validate_ZipCode::isValid($value))
                         {
 	                        $searchParams['zip'] = $value;
-	                        $searchParams['distance'] = LemonFree\Api\Params\Distance::DEFAULT_VALUE;
+	                        $searchParams['distance'] = Distance::DEFAULT_VALUE;
 
 	                        // store if valid zip
 	                        if (LTV_Validate_ZipCode::isValid($value))
@@ -91,7 +96,7 @@ class Util
                         else if (stripos($value, '--') !== false)
                         {
                         	list($city, $state) = explode('--', $value);
-                        	$searchParams['city'] = LemonFree\Api\Site\Url\Param::decode($city);
+                        	$searchParams['city'] = Param::decode($city);
                         	$searchParams['state'] = $state;
                         }
                         break;
@@ -133,14 +138,14 @@ class Util
 
                     case 'price':
                         $requestParams['price'] = $value;
-                        $priceParams = LemonFree\Api\Params\Price::getParams($value, $separator = '.');
+                        $priceParams = Price::getParams($value, $separator = '.');
                         $searchParams['price_min'] = $priceParams['from'];
                         $searchParams['price_max'] = $priceParams['to'];
                         break;
 
                     case 'mileage':
                         $requestParams['mileage'] = $value;
-                        $mileageParams = LemonFree\Api\Params\Mileage::getParams($value, $separator = '.');
+                        $mileageParams = Mileage::getParams($value, $separator = '.');
                         $searchParams['mileage_min'] = $mileageParams['from'];
                         $searchParams['mileage_max'] = $mileageParams['to'];
                         break;
@@ -155,6 +160,7 @@ class Util
         // if location is missing read the cookie
         if ($searchParams['zip'] === null && $searchParams['state'] === null)
         {
+            $validator = new Zend\Il8n\Validatator\PostCode();
             $storedLocation = isset($_COOKIE['LFAPI_LOCATION']) && LTV_Validate_ZipCode::isValid($_COOKIE['LFAPI_LOCATION'])
                 ? $_COOKIE['LFAPI_LOCATION']
                 : null;
@@ -163,7 +169,7 @@ class Util
             $searchParams['zip'] = $storedLocation;
 
             if ($storedLocation)
-                $searchParams['distance'] = LemonFree\Api\Params\Distance::DEFAULT_VALUE;
+                $searchParams['distance'] = Distance::DEFAULT_VALUE;
         }
 
         return array(
