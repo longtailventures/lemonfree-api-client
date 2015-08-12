@@ -3,6 +3,7 @@
 namespace LemonFree\Api\Site;
 
 use LemonFree\Api\Client;
+use LemonFree\Api\Site\Meta\Listing;
 
 class Service
 {
@@ -44,7 +45,7 @@ class Service
 
         foreach ($listingResult['listings'] as $i => $listing)
         {
-        	$listingMeta = new CarForums_Meta_Listing($listing);
+        	$listingMeta = new Listing($listing);
         	$listing['url'] = $listingMeta->getListingUrl();
 
         	$listingResult['listings'][$i] = $listing;
