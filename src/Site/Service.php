@@ -40,17 +40,17 @@ class Service
 
 	public function getListings($searchParams)
 	{
-        	$listingResult = $this->_api->getListings($searchParams, $searchParams['page'], $nPerPage = 10);
+    	$listingResult = $this->_api->getListings($searchParams, $searchParams['page'], $nPerPage = 10);
 
-	        foreach ($listingResult['listings'] as $i => $listing)
-	        {
-	        	$listingMeta = new CarForums_Meta_Listing($listing);
-	        	$listing['url'] = $listingMeta->getListingUrl();
+        foreach ($listingResult['listings'] as $i => $listing)
+        {
+        	$listingMeta = new CarForums_Meta_Listing($listing);
+        	$listing['url'] = $listingMeta->getListingUrl();
 
-	        	$listingResult['listings'][$i] = $listing;
-	        }
+        	$listingResult['listings'][$i] = $listing;
+        }
 
-	        return $listingResult;
+        return $listingResult;
 	}
 
 
@@ -58,9 +58,12 @@ class Service
 	{
 		$listing = $this->_api->getListing($listingId);
 
-		// set the main image
-		$mainImage = array_shift($listing['images']);
-		$listing['main_image'] = str_replace('_img', '', $mainImage);
+		if ($listing)
+		{
+    		// set the main image
+    		$mainImage = array_shift($listing['images']);
+    		$listing['main_image'] = str_replace('_img', '', $mainImage);
+		}
 
 		return $listing;
 	}
