@@ -34,21 +34,21 @@ class Serp
         }
 
         $metaParams['make_model'] = 'Cars For Sale';
-        if ($this->_requestParams['make'])
+        if ($this->_requestParams['make'] && !empty($this->_requestParams['make']))
         {
-            $metaParams['make_model'] = $this->_requestParams['model']
+            $metaParams['make_model'] = $this->_requestParams['model'] && !empty($this->_requestParams['model'])
                 ? "{$this->_requestParams['make']} {$this->_requestParams['model']}"
                 : $this->_requestParams['make'];
 
-            if (isset($this->_requestParams['trim']))
+            if (isset($this->_requestParams['trim']) && !empty($this->_requestParams['trim']))
                 $metaParams['make_model'] .= ' ' . $this->_requestParams['trim'];
 
             $metaParams['make_model'] .= ' For Sale';
         }
-        else if ($this->_requestParams['body'])
+        else if ($this->_requestParams['body'] && !empty($this->_requestParams['body']))
             $metaParams['make_model'] = $this->_requestParams['body'] . " For Sale";
 
-        if ($this->_requestParams['mileage'])
+        if ($this->_requestParams['mileage'] && !empty($this->_requestParams['mileage']))
         {
             $mileageParams = Mileage::getParams($this->_requestParams['mileage'], '.');
 
@@ -58,7 +58,7 @@ class Serp
                 $metaParams['mileage'] = "over " . number_format($mileageParams['from']) . " Miles";
         }
 
-        if ($this->_requestParams['location'])
+        if ($this->_requestParams['location'] && !empty($this->_requestParams['location']))
         {
             $validator = new ZipCodeValidator();
         	if ($validator->isValid($this->_requestParams['location']))
@@ -70,7 +70,7 @@ class Serp
         	}
         }
 
-        if ($this->_requestParams['price'])
+        if ($this->_requestParams['price'] && !empty($this->_requestParams['price']))
         {
             $params = Price::getParams($this->_requestParams['price'], '.');
 
@@ -106,24 +106,49 @@ class Serp
 
 		if (isset($this->_requestParams['location']))
 		{
-		    $validator = new ZipCodeValidator(array('locale' => 'de_US'));
+		    $validator = new ZipCodeValidator();
 			if ($validator->isValid($this->_requestParams['location']))
-				$urlParams['location'] = 'location-' . $this->_requestParams['location'];
-			else
 				$urlParams['location'] = 'location-' . $this->_requestParams['location'];
 		}
 
-		if (isset($this->_requestParams['body']) && !isset($this->_requestParams['make']))
-			$urlParams['body'] = 'body-' . Param::encode($this->_requestParams['body']);
+		if (!isset($urlParams['make']) && !isset($urlParams['model']))
+		{
+    		if (isset($this->_requestParams['body']) && !empty($this->_requestParams['body']))
+    			$urlParams['body'] = 'body-' . Param::encode($this->_requestParams['body']);
+		}
 
 		if (isset($this->_requestParams['price']))
 			$urlParams['price'] = 'price-' . Param::encode($this->_requestParams['price']);
+		else if (isset($this->_requestParams['price_from']) && isset($this->_requestParams['price_to']))
+		{
+		    $urlParams['price'] = 'price-' . Price::getUrlParam(
+                $this->_requestParams['price_from'],
+                $this->_requestParams['price_to'],
+                '.'
+		    );
+		}
 
 		if (isset($this->_requestParams['mileage']))
 			$urlParams['mileage'] = 'mileage-' . Param::encode($this->_requestParams['mileage']);
+		else if (isset($this->_requestParams['mileage_from']) && isset($this->_requestParams['mileage_to']))
+		{
+		    $urlParams['mileage'] = 'mileage-' . Mileage::getUrlParam(
+                $this->_requestParams['mileage_from'],
+                $this->_requestParams['mileage_to'],
+                '.'
+		    );
+		}
 
 		if (isset($this->_requestParams['year']))
 			$urlParams['year'] = 'year-' . Param::encode($this->_requestParams['year']);
+		else if (isset($this->_requestParams['year_from']) && isset($this->_requestParams['year_to']))
+		{
+		    $urlParams['year'] = 'year-' . Year::getUrlParam(
+                $this->_requestParams['year_from'],
+                $this->_requestParams['year_to'],
+                '.'
+		    );
+		}
 
 		if (isset($this->_requestParams['sort']))
 			$urlParams['sort'] = 'sort-' . Param::encode($this->_requestParams['sort']);
@@ -131,7 +156,7 @@ class Serp
 		if ($includePageParam && isset($this->_requestParams['page']))
 			$urlParams['page'] = 'page-' . Param::encode($this->_requestParams['page']);
 
-		if (isset($this->_requestParams['range']))
+		if (isset($urlParams['location']) && isset($this->_requestParams['range']) && !empty($this->_requestParams['range']))
 		{
 		    $validator = new ZipCodeValidator(array('locale' => 'de_US'));
 			if ($validator->isValid($this->_requestParams['location']))

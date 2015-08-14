@@ -276,9 +276,6 @@ class Client
             'number_of_listings' => 0
         );
 
-        if ($n < 10 || $n > 40)
-            return $listingResult;
-
         $params = array('format=json');
 
         $validParams = array(
