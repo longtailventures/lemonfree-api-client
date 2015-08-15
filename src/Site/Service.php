@@ -41,7 +41,7 @@ class Service
 
 	public function getListings($searchParams)
 	{
-    	$listingResult = $this->_api->getListings($searchParams, $searchParams['page'], $nPerPage = 10);
+    	$listingResult = $this->_api->getListings($searchParams, $searchParams['page'], $searchParams['n_per_page']);
 
         foreach ($listingResult['listings'] as $i => $listing)
         {
