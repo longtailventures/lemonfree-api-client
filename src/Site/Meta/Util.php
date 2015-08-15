@@ -91,8 +91,6 @@ class Util
                         {
 	                        $searchParams['zip'] = $value;
 	                        $searchParams['distance'] = Distance::DEFAULT_VALUE;
-
-                            setcookie('LFAPI_LOCATION', $value, time()+60*60*24*7, '/');
                         }
                         else if (stripos($value, '--') !== false)
                         {
@@ -133,8 +131,9 @@ class Util
 
                     case 'year':
                         $requestParams['year'] = $value;
-                        $searchParams['year_from'] = $value;
-                        $searchParams['year_to'] = $value;
+                        $yearParams = Price::getParams($value, $separator = '.');
+                        $searchParams['year_from'] = $yearParams['from'];
+                        $searchParams['year_to'] = $yearParams['to'];
                         break;
 
                     case 'price':
@@ -156,21 +155,6 @@ class Util
                         break;
                 }
             }
-        }
-
-        // if location is missing read the cookie
-        if ($searchParams['zip'] === null && $searchParams['state'] === null)
-        {
-            $validator = new ZipCodeValidator();
-            $storedLocation = isset($_COOKIE['LFAPI_LOCATION']) && $validator->isValid($_COOKIE['LFAPI_LOCATION'])
-                ? $_COOKIE['LFAPI_LOCATION']
-                : null;
-
-            $requestParams['location'] = $storedLocation;
-            $searchParams['zip'] = $storedLocation;
-
-            if ($storedLocation)
-                $searchParams['distance'] = Distance::DEFAULT_VALUE;
         }
 
         return array(
