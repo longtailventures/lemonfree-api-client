@@ -117,37 +117,46 @@ class Serp
     			$urlParams['body'] = 'body-' . Param::encode($this->_requestParams['body']);
 		}
 
-		if (isset($this->_requestParams['price']))
+		if (isset($this->_requestParams['price']) && !empty($this->_requestParams['price']))
 			$urlParams['price'] = 'price-' . Param::encode($this->_requestParams['price']);
 		else if (isset($this->_requestParams['price_from']) && isset($this->_requestParams['price_to']))
 		{
-		    $urlParams['price'] = 'price-' . Price::getUrlParam(
+			$param = Price::getUrlParam(
                 $this->_requestParams['price_from'],
                 $this->_requestParams['price_to'],
                 '.'
 		    );
+
+			if (!empty($param))
+				$urlParams['price'] = "price-$param";
 		}
 
-		if (isset($this->_requestParams['mileage']))
+		if (isset($this->_requestParams['mileage']) && !empty($this->_requestParams['mileage']))
 			$urlParams['mileage'] = 'mileage-' . Param::encode($this->_requestParams['mileage']);
 		else if (isset($this->_requestParams['mileage_from']) && isset($this->_requestParams['mileage_to']))
 		{
-		    $urlParams['mileage'] = 'mileage-' . Mileage::getUrlParam(
+		    $param = Mileage::getUrlParam(
                 $this->_requestParams['mileage_from'],
                 $this->_requestParams['mileage_to'],
                 '.'
 		    );
+
+			if (!empty($param))
+				$urlParams['mileage'] = "mileage-$param";
 		}
 
-		if (isset($this->_requestParams['year']))
+		if (isset($this->_requestParams['year']) && !empty($this->_requestParams['year']))
 			$urlParams['year'] = 'year-' . Param::encode($this->_requestParams['year']);
 		else if (isset($this->_requestParams['year_from']) && isset($this->_requestParams['year_to']))
 		{
-		    $urlParams['year'] = 'year-' . Year::getUrlParam(
+		    $param = Year::getUrlParam(
                 $this->_requestParams['year_from'],
                 $this->_requestParams['year_to'],
                 '.'
 		    );
+
+		    if (!empty($param))
+		    	$urlParams['year'] = "year-$param";
 		}
 
 		if (isset($this->_requestParams['sort']))
@@ -158,13 +167,9 @@ class Serp
 
 		if (isset($urlParams['location']) && isset($this->_requestParams['range']) && !empty($this->_requestParams['range']))
 		{
-		    $validator = new ZipCodeValidator(array('locale' => 'de_US'));
-			if ($validator->isValid($this->_requestParams['location']))
-			{
-				$distance = $this->_requestParams['range'];
-				if ($distance !== Distance::DEFAULT_VALUE)
-					$urlParams['range'] = 'range-' . Param::encode($distance);
-			}
+			$distance = $this->_requestParams['range'];
+			if (!empty($distance) && $distance !== Distance::DEFAULT_VALUE)
+				$urlParams['range'] = 'range-' . Param::encode($distance);
 		}
 
 		if (isset($this->_requestParams['transmission']))
