@@ -12,7 +12,7 @@ use LongTailVentures\Validator\ZipCode as ZipCodeValidator;
 
 class Serp
 {
-    private $_metaParams, $_requestParams;
+    protected $_metaParams, $_requestParams;
 
     public function __construct(array $requestParams)
     {
