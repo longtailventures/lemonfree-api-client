@@ -27,7 +27,7 @@ class Serp
 
         if ($this->_requestParams['year'])
         {
-            $yearParams = Year::getParams($this->_requestParams['year']);
+            $yearParams = Year::getParams($this->_requestParams['year'], '.');
             $metaParams['year'] = $yearParams['from'] === $yearParams['to']
                 ? $yearParams['from']
                 : "{$yearParams['from']}-{$yearParams['to']}";
