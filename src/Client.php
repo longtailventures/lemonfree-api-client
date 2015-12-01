@@ -281,7 +281,7 @@ class Client
         $validParams = array(
             'make', 'model', 'trim', 'bodystyle', 'condition', 'year_from', 'year_to', 'price_min', 'price_max',
             'mileage_min', 'mileage_max', 'zip', 'distance', 'city', 'state', 'country', 'certified_only',
-            'sort_by', 'sort_dir'
+            'sort_by', 'sort_dir', 'ppc_campaign'
         );
 
         foreach ($searchParams as $field => $value)
